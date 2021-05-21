@@ -1,7 +1,11 @@
 import React from "react";
 
 const MapPage = () => {
-  return <div>Map page!</div>;
+  return (
+    <div>
+      <h1>Testando map!</h1>
+    </div>
+  );
 };
 
 export default MapPage;
