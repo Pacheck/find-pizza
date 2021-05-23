@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import { auth, createUserProfileDocument } from "../firebase/utils";
 
 import HomePage from "../pages/home-page";
-import LoginPage from "../pages/log-in-page";
-import SignInPage from "../pages/sign-in-page";
-import MapPage from "../pages/sign-in-page";
+import LogInAndSignIn from "../pages/log-in-sign-in-page";
+import MapPage from "../pages/map-page";
 
 import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.user.currentUser);
 
   useEffect(() => {
     const subscribeAuthHandler = () => {
@@ -51,12 +51,10 @@ function App() {
       <Route path="/" exact>
         <HomePage />
       </Route>
-      <Route path="/log-in" exact>
-        <LoginPage />
-      </Route>
-      <Route path="/sign-in" exact>
-        <SignInPage />
-      </Route>
+      <Route
+        path="/user"
+        render={() => (user ? <Redirect to="/map" /> : <LogInAndSignIn />)}
+      />
       <Route path="/map">
         <MapPage />
       </Route>
