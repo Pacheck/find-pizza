@@ -1,9 +1,7 @@
 import React from "react";
 
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { withRouter } from "react-router";
-
-import { useSelector } from "react-redux";
 
 import SignIn from "../../components/Sign-in";
 import LogIn from "../../components/Log-in";
@@ -20,9 +18,8 @@ interface RouteParams {
 }
 
 const LogInAndSignIng = (props: RouteParams) => {
-  const user = useSelector((state: any) => state.user.currentUser);
-
   const { path } = props.match;
+
   return (
     <RouterContainer>
       <Switch>

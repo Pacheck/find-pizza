@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Player } from "@lottiefiles/react-lottie-player";
-
 import { Container, CustomPlayer } from "./styles";
 
 const AsideBackground = () => {
