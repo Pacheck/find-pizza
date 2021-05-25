@@ -9,13 +9,7 @@ import AsideBackgroundImage from "../../components/AsideBackgroundImage";
 
 import { RouterContainer } from "./styles";
 
-interface RouteParams {
-  match: {
-    params: string;
-    path: string;
-    url: string;
-  };
-}
+import { RouteParams } from "./types";
 
 const LogInAndSignIng = (props: RouteParams) => {
   const { path } = props.match;
