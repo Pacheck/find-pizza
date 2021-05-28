@@ -1,5 +1,5 @@
 .hot-chocolate-icon {
-  background: white;
+  background: rgb(169, 50, 206);
   border-radius: 50%;
   box-shadow: 0px 0px 10px black;
 }
@@ -8,6 +8,7 @@
   display: block;
   width: 30px;
   height: 30px;
-  content: "☕";
+  content: "🍕";
   font-size: 20px;
+  margin-left: 5px;
 }

@@ -1,14 +1,14 @@
-import React from "react";
-import L, { LatLngExpression } from "leaflet";
+import { useState } from "react";
 
 import "leaflet/dist/leaflet.css";
+import L, { LatLngExpression } from "leaflet";
 
-import { Marker, TileLayer, Popup } from "react-leaflet";
-
-import { CustomizedMap } from "./styles";
+import SideBar from "../SideBar";
+import { TileLayer, Popup, useMapEvents, useMap } from "react-leaflet";
 
 import "./index.css";
 
+import { Container, CustomizedMap, CustomizedMarker } from "./styles";
 interface HotChocolate {
   productName: string;
   englishProductName: string;
@@ -48,22 +48,59 @@ const list: HotChocolate[] = [
 ];
 
 const Map = () => {
-  const position: LatLngExpression = [59.91174337077401, 10.750425582038146];
+  const [position, setPosition] = useState<LatLngExpression>([
+    41.89397177663592, 12.48252868652344,
+  ]);
   const zoom: number = 15;
 
-  const icon: L.DivIcon = L.divIcon({
-    className: "hot-chocolate-icon",
-    iconSize: [30, 30],
-    iconAnchor: [0, 0],
-    popupAnchor: [15, 0],
-  });
+  function HandleLocationMarker() {
+    const map = useMapEvents({
+      click(event) {
+        // const data = map.getCenter();
+        // console.log(event.latlng);
+        // map.on("click", (e: any) => console.log(e.latlng));
+        setPosition(Object.values(event.latlng) as LatLngExpression);
+      },
+      locationfound(e) {
+        setPosition(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+      },
+    });
+
+    const icon: L.DivIcon = L.divIcon({
+      className: "hot-chocolate-icon",
+      iconSize: [30, 30],
+      iconAnchor: [0, 0],
+      popupAnchor: [15, 0],
+    });
+
+    return position === null ? null : (
+      <CustomizedMarker position={position}>
+        <Popup>You are here</Popup>
+      </CustomizedMarker>
+    );
+  }
 
   return (
-    <CustomizedMap center={position} zoom={zoom} scrollWheelZoom={false}>
-      <TileLayer
-        attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+    <Container>
+      <SideBar location={position} />
+      <CustomizedMap center={position} zoom={zoom} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+
+        <HandleLocationMarker />
+
+        {/* <Marker
+        position={[59.90757, 10.753253]}
+        icon={icon}
+        key={Math.random()}
+        title="Pizza"
+      >
+        <Popup>Pizza glub glub</Popup>
+      </Marker>
+
       {list.map((item, index) => (
         <Marker
           icon={icon}
@@ -83,8 +120,9 @@ const Map = () => {
             {item.description && <em>{item.description}</em>}
           </Popup>
         </Marker>
-      ))}
-    </CustomizedMap>
+      ))} */}
+      </CustomizedMap>
+    </Container>
   );
 };
 
